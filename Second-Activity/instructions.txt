@@ -1,0 +1,5 @@
+A terraform plan consists of EC2 server
+ - With a VPC with public subnet.
+ - Network Load balancer in the public subnet security group.
+ - With inbound rule of port of 80 and 443 connected to the EC2
+
