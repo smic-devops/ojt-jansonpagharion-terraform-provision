@@ -1,28 +1,7 @@
 variable "region" {
-  description = "AWS region singapore"
+  description = "AWS region sydney"
   type        = string
-  default     = {
-    "ap-southeast-1"
-    "ap-southeast-2"
-    }
-}
-
-variable "ami_type"  {
-  type = string
-  tpye = "ubuntu"
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["099720109477"] 
+  default     = "ap-southeast-2"
 }
 
 variable "instance_type" {
@@ -30,3 +9,15 @@ variable "instance_type" {
   type        = string
   default     = "t3.micro"
 }
+
+variable "ami_type" {
+  type        = string
+  description = "Ubuntu AMI ID"
+}
+
+variable "lb_logs_bucket" {
+  type        = string
+  description = "S3 bucket name for ALB access logs"
+  default     = "" # e.g., "my-lb-logs-bucket"
+}
+
