@@ -9,3 +9,8 @@ output "instance_ami" {
 output "public_ip" {
   value = aws_instance.web.public_ip
 }
+
+output "id" {
+  description = "ID of VPC"
+  value = aws_vpc.main.id
+}

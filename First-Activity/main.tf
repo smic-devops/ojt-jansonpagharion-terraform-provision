@@ -6,7 +6,6 @@ locals {
   my_ip_cidr = "${chomp(data.http.my_ip.response_body)}/32"
 }
 
-
 resource "aws_vpc" "main" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_support   = true
@@ -16,8 +15,15 @@ resource "aws_vpc" "main" {
 
 resource "aws_subnet" "private" {
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.1.0/24"
-  map_public_ip_on_launch = false
+  cidr_block              = "10.0.1.0/24"  
+}
+
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "main"
+  }
 }
 
 resource "aws_route_table" "private" {
@@ -47,7 +53,7 @@ data "aws_ami" "ubuntu" {
 
 resource "aws_instance" "web" {
   ami                    = data.aws_ami.ubuntu.id
-  instance_type          = var.instance_type
+  instance_type          = "t3.micro"
   subnet_id                   = aws_subnet.private.id
   vpc_security_group_ids = [aws_security_group.ec2_sg.id]
   associate_public_ip_address = false 
