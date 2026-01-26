@@ -1,5 +1,0 @@
-A terraform plan consists of EC2 server
- - Security Group of EC2 server with inbound rule of port 80 and port 443 allowing from your network public ip address.
- -  VPC with a private subnet.
-
-    
