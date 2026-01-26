@@ -40,7 +40,7 @@ resource "aws_subnet" "co_public" { #FOR ALB
 resource "aws_subnet" "private" { # FOR EC2
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.2.0/24"
-  availability_zone = data.aws_availability_zones.available.names[3]
+  availability_zone = data.aws_availability_zones.available.names[2]
 
   tags = {
     Name = "private subnet"
