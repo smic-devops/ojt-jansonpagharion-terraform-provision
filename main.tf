@@ -40,7 +40,7 @@ resource "aws_subnet" "private" {
   tags              = { Name = "private-a" }
 }
 
-####### PUBLIC ROUTES & ALB LISTENER
+####### Public table & routes
 
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
@@ -63,6 +63,37 @@ resource "aws_route_table_association" "public_b" {
   route_table_id = aws_route_table.public.id
 }
 
+## Private table & routes
+
+resource "aws_route_table" "private" {
+  vpc_id = aws_vpc.main.id
+  tags   = { Name = "rt-private" }
+}
+
+resource "aws_route" "private_default" {
+  route_table_id         = aws_route_table.private.id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.nat.id
+}
+
+resource "aws_route_table_association" "private_a" {
+  subnet_id      = aws_subnet.private.id
+  route_table_id = aws_route_table.private.id
+}
+
+## NAT Gateway and EIP for Private Subnet Internet Access
+
+resource "aws_eip" "nat_eip" {
+  domain = "vpc"
+  tags   = { Name = "nat-eip" }
+}
+
+resource "aws_nat_gateway" "nat_gw" {
+  allocation_id = aws_eip.nat_eip.id
+  subnet_id     = aws_subnet.public.id
+  tags          = { Name = "nat-gw" }
+}
+
 ############## ALB & SG
 
 resource "aws_security_group" "alb_sg" {
@@ -70,7 +101,7 @@ resource "aws_security_group" "alb_sg" {
   description = "ALB SG"
   vpc_id      = aws_vpc.main.id
   tags        = { Name = "alb_sg" }
-}
+} 
 
 # Internet to ALB
 resource "aws_vpc_security_group_ingress_rule" "alb_http_in" {
