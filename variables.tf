@@ -13,5 +13,5 @@ variable "instance_type" {
 variable "ami_type" {
   type        = string
   description = "Ubuntu AMI ID"
-  default = "ami-0d6621c01e8c2de2c" # Ubuntu Server 20.04 LTS (HVM), SSD Volume Type
+  default     = "ami-0d6621c01e8c2de2c" # Ubuntu Server 20.04 LTS (HVM), SSD Volume Type
 }

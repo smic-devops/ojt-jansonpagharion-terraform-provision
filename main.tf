@@ -101,7 +101,7 @@ resource "aws_security_group" "alb_sg" {
   description = "ALB SG"
   vpc_id      = aws_vpc.main.id
   tags        = { Name = "alb_sg" }
-} 
+}
 
 # Internet to ALB
 resource "aws_vpc_security_group_ingress_rule" "alb_http_in" {
