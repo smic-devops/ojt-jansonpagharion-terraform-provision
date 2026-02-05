@@ -26,7 +26,7 @@ variable "vpc" {
 variable "subnetpublic1" {
   type        = string
   description = "Public Subnet 1 ID"
-  default     = aws_subnet.public.id
+  default     = "aws_subnet.public.id"
 }
 
 variable "subnetpublic2" {
