@@ -32,11 +32,11 @@ variable "subnetpublic1" {
 variable "subnetpublic2" {
   type        = string
   description = "Public Subnet 2 ID"
-  default     = aws_subnet.co_public.id
+  default     = "aws_subnet.co_public.id"
 }
 
 variable "subnetprivate" {
   type        = string
   description = "Private Subnet ID"
-  default     = aws_subnet.private.id
+  default     = "aws_subnet.private.id"
 }
