@@ -13,7 +13,7 @@ variable "instance_type" {
 variable "ami_type" {
   type        = string
   description = "Ubuntu AMI ID"
-  default     = "ami-0d6621c01e8c2de2c"
+  default     = "ami-0d6621c01e8c2de2a"
 }
 
 variable "vpc" {
