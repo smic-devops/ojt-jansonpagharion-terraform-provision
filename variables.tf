@@ -40,3 +40,5 @@ variable "subnetprivate" {
   description = "Private Subnet ID"
   default     = "aws_subnet.private.id"
 }
+
+#
