@@ -17,10 +17,10 @@ variable "ami_type" {
 }
 
 variable "vpc" {
-  type = string
+  type        = string
   description = "VPC ID"
-  default = "vpc-0bb1c79de3EXAMPLE"
-  
+  default     = "vpc-0bb1c79de3EXAMPLE"
+
 }
 
 variable "subnetpublic1" {
@@ -41,4 +41,3 @@ variable "subnetprivate" {
   default     = "aws_subnet.private.id"
 }
 
-#

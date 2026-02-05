@@ -157,11 +157,11 @@ resource "aws_vpc_security_group_egress_rule" "ec2_egress_all" {
 }
 
 resource "aws_instance" "web" {
-  ami                    = var.ami_type
-  instance_type          = var.instance_type
-  subnet_id              = var.subnetprivate
+  ami                         = var.ami_type
+  instance_type               = var.instance_type
+  subnet_id                   = var.subnetprivate
   associate_public_ip_address = false
-  vpc_security_group_ids = [aws_security_group.ec2_sg.id]
+  vpc_security_group_ids      = [aws_security_group.ec2_sg.id]
 
 }
 
