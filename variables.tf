@@ -22,3 +22,21 @@ variable "vpc" {
   default = "vpc-0bb1c79de3EXAMPLE"
   
 }
+
+variable "subnetpublic1" {
+  type        = string
+  description = "Public Subnet 1 ID"
+  default     = aws_subnet.public.id
+}
+
+variable "subnetpublic2" {
+  type        = string
+  description = "Public Subnet 2 ID"
+  default     = aws_subnet.co_public.id
+}
+
+variable "subnetprivate" {
+  type        = string
+  description = "Private Subnet ID"
+  default     = aws_subnet.private.id
+}
