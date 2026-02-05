@@ -4,22 +4,15 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
-resource "aws_vpc" "main" {
-  cidr_block           = "10.0.0.0/16"
-  enable_dns_support   = true
-  enable_dns_hostnames = true
-  tags                 = { Name = "main-vpc" }
-}
-
 resource "aws_internet_gateway" "gw" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = var.vpc
   tags   = { Name = "main-igw" }
 }
 
 ############### SUBNETS
 
 resource "aws_subnet" "public" {
-  vpc_id                  = aws_vpc.main.id
+  vpc_id                  = var.vpc
   cidr_block              = "10.0.0.0/24"
   availability_zone       = data.aws_availability_zones.available.names[0]
   map_public_ip_on_launch = true
@@ -27,7 +20,7 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_subnet" "co_public" {
-  vpc_id                  = aws_vpc.main.id
+  vpc_id                  = var.vpc
   cidr_block              = "10.0.1.0/24"
   availability_zone       = data.aws_availability_zones.available.names[1]
   map_public_ip_on_launch = true
@@ -35,7 +28,7 @@ resource "aws_subnet" "co_public" {
 }
 
 resource "aws_subnet" "private" {
-  vpc_id            = aws_vpc.main.id
+  vpc_id            = var.vpc
   cidr_block        = "10.0.2.0/24"
   availability_zone = data.aws_availability_zones.available.names[0]
   tags              = { Name = "private-a" }
@@ -44,7 +37,7 @@ resource "aws_subnet" "private" {
 ####### Public table & routes
 
 resource "aws_route_table" "public" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = var.vpc
   tags   = { Name = "rt-public" }
 }
 
@@ -67,7 +60,7 @@ resource "aws_route_table_association" "public_b" {
 ## Private table & routes
 
 resource "aws_route_table" "private" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = var.vpc
   tags   = { Name = "rt-private" }
 }
 
@@ -100,7 +93,7 @@ resource "aws_nat_gateway" "nat_gw" {
 resource "aws_security_group" "alb_sg" {
   name        = "alb_sg"
   description = "ALB SG"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = var.vpc
   tags        = { Name = "alb_sg" }
 }
 
@@ -141,7 +134,7 @@ resource "aws_lb_target_group" "app_tg" {
   name     = "app-tg"
   port     = 80
   protocol = "HTTP"
-  vpc_id   = aws_vpc.main.id
+  vpc_id   = var.vpc
 
   health_check {
     path                = "/"
@@ -170,7 +163,7 @@ resource "aws_lb_listener" "http" {
 resource "aws_security_group" "ec2_sg" {
   name        = "ec2_sg"
   description = "EC2 app SG"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = var.vpc
   tags        = { Name = "ec2_sg" }
 }
 
