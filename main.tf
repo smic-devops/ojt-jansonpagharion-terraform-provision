@@ -1,3 +1,6 @@
+provider "aws" {
+  region = var.region
+}
 
 # for azs
 data "aws_availability_zones" "available" {
