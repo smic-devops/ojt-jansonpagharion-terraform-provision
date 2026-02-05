@@ -46,7 +46,7 @@ resource "aws_route" "private_default" {
 }
 
 resource "aws_route_table_association" "private_a" {
-  subnet_id      = aws_subnet.private.id
+  subnet_id      = var.subnetprivate
   route_table_id = aws_route_table.private.id
 }
 
@@ -159,7 +159,8 @@ resource "aws_vpc_security_group_egress_rule" "ec2_egress_all" {
 resource "aws_instance" "web" {
   ami                    = var.ami_type
   instance_type          = var.instance_type
-  subnet_id              = aws_subnet.private.id
+  subnet_id              = var.subnetprivate
+  associate_public_ip_address = false
   vpc_security_group_ids = [aws_security_group.ec2_sg.id]
 
 }
