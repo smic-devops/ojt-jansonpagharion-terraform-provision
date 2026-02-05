@@ -23,6 +23,8 @@ variable "vpc" {
 
 }
 
+# Subnets
+
 variable "subnetpublic1" {
   type        = string
   description = "Public Subnet 1 ID"
