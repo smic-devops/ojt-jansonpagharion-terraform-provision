@@ -4,65 +4,6 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
-resource "aws_internet_gateway" "gw" {
-  vpc_id = var.vpc
-  tags   = { Name = "main-igw" }
-}
-
-####### Public table & Routes
-
-resource "aws_route_table" "public" {
-  vpc_id = var.vpc
-  tags   = { Name = "rt-public" }
-}
-
-resource "aws_route" "public_default" {
-  route_table_id         = aws_route_table.public.id
-  destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = aws_internet_gateway.gw.id
-}
-
-resource "aws_route_table_association" "public_a" {
-  subnet_id      = var.subnetpublic1
-  route_table_id = aws_route_table.public.id
-}
-
-resource "aws_route_table_association" "public_b" {
-  subnet_id      = var.subnetpublic2
-  route_table_id = aws_route_table.public.id
-}
-
-## Private table & routes
-
-resource "aws_route_table" "private" {
-  vpc_id = var.vpc
-  tags   = { Name = "rt-private" }
-}
-
-resource "aws_route" "private_default" {
-  route_table_id         = aws_route_table.private.id
-  destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = aws_nat_gateway.nat_gw.id
-}
-
-resource "aws_route_table_association" "private_a" {
-  subnet_id      = var.subnetprivate
-  route_table_id = aws_route_table.private.id
-}
-
-## NAT Gateway and EIP for private subnet Internet Access
-
-resource "aws_eip" "nat_eip" {
-  domain = "vpc"
-  tags   = { Name = "nat-eip" }
-}
-
-resource "aws_nat_gateway" "nat_gw" {
-  allocation_id = aws_eip.nat_eip.id
-  subnet_id     = var.subnetpublic1
-  tags          = { Name = "nat-gw" }
-}
-
 ############## ALB & SG
 
 resource "aws_security_group" "alb_sg" {
