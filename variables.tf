@@ -21,7 +21,7 @@ variable "ami_type" {
 variable "vpc" {
   type        = string
   description = "VPC ID"
-  default     = "vpc-0cb1c99de3EXaMplE"
+  default     = "vpc-05596861f4ecffdeb"
 
 }
 
@@ -30,18 +30,18 @@ variable "vpc" {
 variable "subnetpublic1" {
   type        = string
   description = "Public Subnet 1 ID"
-  default     = "aws_subnet.public.id"
+  default     = "subnet-02f95b7899e8bed30"
 }
 
 variable "subnetpublic2" {
   type        = string
   description = "Public Subnet 2 ID"
-  default     = "aws_subnet.co_public.id"
+  default     = "subnet-09c8dbaa942884f5d"
 }
 
 variable "subnetprivate" {
   type        = string
   description = "Private Subnet ID"
-  default     = "aws_subnet.private.id"
+  default     = "subnet-0ee426ba08e9643d9"
 }
 
