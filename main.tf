@@ -10,7 +10,11 @@ resource "aws_security_group" "alb_security_group" {
   name        = "itss_ojt_pagharion_alb_security_group"
   description = "ALB SG"
   vpc_id      = var.vpc
-  tags        = { Name = "itss_ojt_pagharion_alb_security_group" }
+
+  tags = {
+    Name        = "itss_ojt_pagharion_alb_security_group"
+    Environment = "Sandbox"
+  }
 }
 
 # Internet to ALB
@@ -37,8 +41,8 @@ resource "aws_vpc_security_group_egress_rule" "alb_to_app" {
   ip_protocol                  = "tcp"
 }
 
-resource "aws_lb" "test" {
-  name               = "test-load-balancer"
+resource "aws_lb" "alb" {
+  name               = "itss_ojt_pagharion_load_balancer"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_security_group.id]
@@ -47,7 +51,7 @@ resource "aws_lb" "test" {
 
 # Target group
 resource "aws_lb_target_group" "app_target_group" {
-  name     = "app-tg-gr"
+  name     = "itss_ojt_pagharion_target_group"
   port     = 80
   protocol = "HTTP"
   vpc_id   = var.vpc
@@ -103,14 +107,14 @@ resource "aws_instance" "web" {
   subnet_id                   = var.subnetprivate
   associate_public_ip_address = false
   vpc_security_group_ids      = [aws_security_group.ec2_security_group.id]
-  
+
   tags = {
-    Name            = "itss-ojt-Pagharion-ec2"
-    Environment     = "Sandbox"
-    backup          = "no"
-    Schedule        = "running"
-    Patch           = "No"
-    Resource_Types  = "Instances Volumes Network_Interfaces"
+    Name           = "itss-ojt-Pagharion-ec2"
+    Environment    = "Sandbox"
+    backup         = "no"
+    Schedule       = "running"
+    Patch          = "No"
+    Resource_Types = "Instances Volumes Network_Interfaces"
   }
 }
 
