@@ -7,12 +7,11 @@ data "aws_availability_zones" "available" {
 ############## ALB & SG
 
 resource "aws_security_group" "alb_security_group" {
-  name        = "itss_ojt_pagharion_alb_security_group"
+  name        = "itss_ojt-pagharion-alb-security-group"
   description = "ALB SG"
   vpc_id      = var.vpc
 
   tags = {
-    Name        = "itss_ojt_pagharion_alb_security_group"
     Environment = "Sandbox"
   }
 }
@@ -41,8 +40,8 @@ resource "aws_vpc_security_group_egress_rule" "alb_to_app" {
   ip_protocol                  = "tcp"
 }
 
-resource "aws_lb" "alb" {
-  name               = "itss_ojt_pagharion_load_balancer"
+resource "aws_lb" "test" {
+  name               = "itss-ojt-pagharion-load-balancer"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_security_group.id]
@@ -51,7 +50,7 @@ resource "aws_lb" "alb" {
 
 # Target group
 resource "aws_lb_target_group" "app_target_group" {
-  name     = "itss_ojt_pagharion_target_group"
+  name     = "itss-ojt-pagharion-target-group"
   port     = 80
   protocol = "HTTP"
   vpc_id   = var.vpc
@@ -81,10 +80,11 @@ resource "aws_lb_listener" "http" {
 ########### EC2 Instance & SG
 
 resource "aws_security_group" "ec2_security_group" {
-  name        = "itss_ojt_pagharion_ec2_security_group"
+  name        = "itss-ojt-pagharion-ec2-security-group"
   description = "EC2 app SG"
   vpc_id      = var.vpc
-  tags        = { Name = "itss_ojt_pagharion_ec2_security_group" }
+  tags = {
+  Environment = "Sandbox" }
 }
 
 resource "aws_vpc_security_group_ingress_rule" "app_from_alb" {
@@ -109,7 +109,7 @@ resource "aws_instance" "web" {
   vpc_security_group_ids      = [aws_security_group.ec2_security_group.id]
 
   tags = {
-    Name           = "itss-ojt-Pagharion-ec2"
+    Name           = "itss-ojt-pagharion-ec2"
     Environment    = "Sandbox"
     backup         = "no"
     Schedule       = "running"
