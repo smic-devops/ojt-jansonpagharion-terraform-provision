@@ -9,7 +9,7 @@ resource "aws_internet_gateway" "gw" {
   tags   = { Name = "main-igw" }
 }
 
-####### Public table & routes
+####### Public table & Routes
 
 resource "aws_route_table" "public" {
   vpc_id = var.vpc
