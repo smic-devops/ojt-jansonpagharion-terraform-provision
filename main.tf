@@ -7,10 +7,10 @@ data "aws_availability_zones" "available" {
 ############## ALB & SG
 
 resource "aws_security_group" "alb_security_group" {
-  name        = "alb_security_group"
+  name        = "itss_ojt_pagharion_alb_security_group"
   description = "ALB SG"
   vpc_id      = var.vpc
-  tags        = { Name = "alb_security_group" }
+  tags        = { Name = "itss_ojt_pagharion_alb_security_group" }
 }
 
 # Internet to ALB
@@ -77,10 +77,10 @@ resource "aws_lb_listener" "http" {
 ########### EC2 Instance & SG
 
 resource "aws_security_group" "ec2_security_group" {
-  name        = "ec2_security_group"
+  name        = "itss_ojt_pagharion_ec2_security_group"
   description = "EC2 app SG"
   vpc_id      = var.vpc
-  tags        = { Name = "ec2_security_group" }
+  tags        = { Name = "itss_ojt_pagharion_ec2_security_group" }
 }
 
 resource "aws_vpc_security_group_ingress_rule" "app_from_alb" {
@@ -103,7 +103,15 @@ resource "aws_instance" "web" {
   subnet_id                   = var.subnetprivate
   associate_public_ip_address = false
   vpc_security_group_ids      = [aws_security_group.ec2_security_group.id]
-
+  
+  tags = {
+    Name            = "itss-ojt-Pagharion-ec2"
+    Environment     = "Sandbox"
+    backup          = "no"
+    Schedule        = "running"
+    Patch           = "No"
+    Resource_Types  = "Instances Volumes Network_Interfaces"
+  }
 }
 
 resource "aws_lb_target_group_attachment" "app_attach" {
