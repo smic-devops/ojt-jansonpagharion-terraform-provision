@@ -6,23 +6,23 @@ data "aws_availability_zones" "available" {
 
 ############## ALB & SG
 
-resource "aws_security_group" "alb_sg" {
-  name        = "alb_sg"
+resource "aws_security_group" "alb_security_group" {
+  name        = "alb_security_group"
   description = "ALB SG"
   vpc_id      = var.vpc
-  tags        = { Name = "alb_sg" }
+  tags        = { Name = "alb_security_group" }
 }
 
 # Internet to ALB
 resource "aws_vpc_security_group_ingress_rule" "alb_http_in" {
-  security_group_id = aws_security_group.alb_sg.id
+  security_group_id = aws_security_group.alb_security_group.id
   cidr_ipv4         = "0.0.0.0/0"
   from_port         = 80
   to_port           = 80
   ip_protocol       = "tcp"
 }
 resource "aws_vpc_security_group_ingress_rule" "alb_https_in" {
-  security_group_id = aws_security_group.alb_sg.id
+  security_group_id = aws_security_group.alb_security_group.id
   cidr_ipv4         = "0.0.0.0/0"
   from_port         = 443
   to_port           = 443
@@ -30,8 +30,8 @@ resource "aws_vpc_security_group_ingress_rule" "alb_https_in" {
 }
 
 resource "aws_vpc_security_group_egress_rule" "alb_to_app" {
-  security_group_id            = aws_security_group.alb_sg.id
-  referenced_security_group_id = aws_security_group.ec2_sg.id
+  security_group_id            = aws_security_group.alb_security_group.id
+  referenced_security_group_id = aws_security_group.ec2_security_group.id
   from_port                    = 80
   to_port                      = 80
   ip_protocol                  = "tcp"
@@ -41,7 +41,7 @@ resource "aws_lb" "test" {
   name               = "test-lb-tf"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.alb_sg.id]
+  security_groups    = [aws_security_group.alb_security_group.id]
   subnets            = [var.subnetpublic1, var.subnetpublic2]
 }
 
@@ -76,23 +76,23 @@ resource "aws_lb_listener" "http" {
 
 ########### EC2 Instance & SG
 
-resource "aws_security_group" "ec2_sg" {
-  name        = "ec2_sg"
+resource "aws_security_group" "ec2_security_group" {
+  name        = "ec2_security_group"
   description = "EC2 app SG"
   vpc_id      = var.vpc
-  tags        = { Name = "ec2_sg" }
+  tags        = { Name = "ec2_security_group" }
 }
 
 resource "aws_vpc_security_group_ingress_rule" "app_from_alb" {
-  security_group_id            = aws_security_group.ec2_sg.id
-  referenced_security_group_id = aws_security_group.alb_sg.id
+  security_group_id            = aws_security_group.ec2_security_group.id
+  referenced_security_group_id = aws_security_group.alb_security_group.id
   from_port                    = 80
   to_port                      = 80
   ip_protocol                  = "tcp"
 }
 
 resource "aws_vpc_security_group_egress_rule" "ec2_egress_all" {
-  security_group_id = aws_security_group.ec2_sg.id
+  security_group_id = aws_security_group.ec2_security_group.id
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "-1"
 }
@@ -102,7 +102,7 @@ resource "aws_instance" "web" {
   instance_type               = var.instance_type
   subnet_id                   = var.subnetprivate
   associate_public_ip_address = false
-  vpc_security_group_ids      = [aws_security_group.ec2_sg.id]
+  vpc_security_group_ids      = [aws_security_group.ec2_security_group.id]
 
 }
 
