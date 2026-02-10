@@ -38,7 +38,7 @@ resource "aws_vpc_security_group_egress_rule" "alb_to_app" {
 }
 
 resource "aws_lb" "test" {
-  name               = "test-lb-tf"
+  name               = "test-load-balancer"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_security_group.id]
@@ -46,8 +46,8 @@ resource "aws_lb" "test" {
 }
 
 # Target group
-resource "aws_lb_target_group" "app_tg" {
-  name     = "app-tg"
+resource "aws_lb_target_group" "app_target_group" {
+  name     = "app_target_group"
   port     = 80
   protocol = "HTTP"
   vpc_id   = var.vpc
