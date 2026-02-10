@@ -50,7 +50,7 @@ resource "aws_route_table_association" "private_a" {
   route_table_id = aws_route_table.private.id
 }
 
-## NAT Gateway and EIP for Private Subnet Internet Access
+## NAT Gateway and EIP for private subnet Internet Access
 
 resource "aws_eip" "nat_eip" {
   domain = "vpc"
