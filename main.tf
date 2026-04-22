@@ -117,12 +117,6 @@ resource "aws_instance" "web" {
   }
 }
 
-resource "aws_lb_target_group_attachment" "app_attach" {
-  target_group_arn = aws_lb_target_group.app_target_group.arn
-  target_id        = [aws_instance.web.id, aws_instance.web2.id]
-  port             = 80
-}
-
 resource "aws_instance" "web2" {
   ami                         = var.ami_type
   instance_type               = var.instance_type
