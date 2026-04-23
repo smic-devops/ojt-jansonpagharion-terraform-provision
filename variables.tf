@@ -1,7 +1,31 @@
-variable "region" {
-  description = "AWS region singapore"
+variable "vpc_id" {
+  description = "Existing VPC ID"
   type        = string
-  default     = "ap-southeast-1"
+  default     = "vpc-05596861f4ecffdeb"
+}
+
+variable "public_subnet_ids" {
+  description = "Public subnet IDs for ALB (one per AZ)"
+  type        = list(string)
+  default = [
+    "subnet-09c8dbaa942884f5d",
+    "subnet-02f95b7899e8bed30"
+  ]
+}
+
+variable "private_subnet_ids" {
+  description = "Private subnet IDs for EC2 instances (one per AZ)"
+  type        = list(string)
+  default = [
+    "subnet-0ee426ba08e9643d9",
+    "subnet-095cdc7b816291369"
+  ]
+}
+
+variable "ami_id" {
+  description = "AMI ID for EC2 instances"
+  type        = string
+  default     = "ami-03c3282f979a6a9b0"
 }
 
 variable "instance_type" {
@@ -9,39 +33,3 @@ variable "instance_type" {
   type        = string
   default     = "t3.micro"
 }
-
-variable "ami_type" {
-  type        = string
-  description = "AMI ID"
-  default     = "ami-0249e9b9816d90e03"
-}
-
-# VPC ID
-
-variable "vpc" {
-  type        = string
-  description = "VPC ID"
-  default     = "vpc-05596861f4ecffdeb"
-
-}
-
-# Subnets
-
-variable "subnetpublic1" {
-  type        = string
-  description = "Public Subnet 1 ID"
-  default     = "subnet-02f95b7899e8bed30"
-}
-
-variable "subnetpublic2" {
-  type        = string
-  description = "Public Subnet 2 ID"
-  default     = "subnet-09c8dbaa942884f5d"
-}
-
-variable "subnetprivate" {
-  type        = string
-  description = "Private Subnet ID"
-  default     = "subnet-0ee426ba08e9643d9"
-}
-
