@@ -45,10 +45,14 @@ resource "aws_lb_listener" "http" {
   }
 }
 
-resource "aws_lb_target_group_attachment" "attach" {
-  for_each = toset(var.instance_ids)
-
+resource "aws_lb_target_group_attachment" "ec2_1" {
   target_group_arn = aws_lb_target_group.this.arn
-  target_id        = each.value
+  target_id        = var.instance_ids[0]
+  port             = 80
+}
+
+resource "aws_lb_target_group_attachment" "ec2_2" {
+  target_group_arn = aws_lb_target_group.this.arn
+  target_id        = var.instance_ids[1]
   port             = 80
 }
