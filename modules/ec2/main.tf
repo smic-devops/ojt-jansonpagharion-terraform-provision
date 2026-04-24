@@ -1,5 +1,5 @@
 resource "aws_security_group" "ec2_sg" {
-  name   = "ojt-jansonpagharion-ec2-sg"
+  name   = "ojt-jansonpagharion-ec2-sg-ppt"
   vpc_id = var.vpc_id
 
   tags = {
@@ -9,16 +9,10 @@ resource "aws_security_group" "ec2_sg" {
 
 resource "aws_vpc_security_group_ingress_rule" "http_from_alb" {
   security_group_id = aws_security_group.ec2_sg.id
+  referenced_security_group_id = var.alb_security_group_id
   from_port         = 80
   to_port           = 80
   ip_protocol       = "tcp"
-  cidr_ipv4         = "0.0.0.0/0"
-}
-
-resource "aws_vpc_security_group_egress_rule" "all_out" {
-  security_group_id = aws_security_group.ec2_sg.id
-  cidr_ipv4         = "0.0.0.0/0"
-  ip_protocol       = "-1"
 }
 
 resource "aws_instance" "this" {

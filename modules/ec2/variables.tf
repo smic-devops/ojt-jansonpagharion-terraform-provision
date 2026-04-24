@@ -17,3 +17,8 @@ variable "instance_type" {
   description = "EC2 instance type"
   type        = string
 }
+
+variable "alb_security_group_id" {
+  description = "ALB security group ID allowed to access EC2"
+  type        = string
+}

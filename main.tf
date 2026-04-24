@@ -4,6 +4,7 @@ module "ec2" {
   private_subnet_ids = var.private_subnet_ids
   ami_id             = var.ami_id
   instance_type      = var.instance_type
+  alb_security_group_id  = module.alb.alb_security_group_id
 }
 
 module "alb" {
