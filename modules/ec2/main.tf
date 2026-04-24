@@ -8,11 +8,11 @@ resource "aws_security_group" "ec2_sg" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "http_from_alb" {
-  security_group_id = aws_security_group.ec2_sg.id
+  security_group_id            = aws_security_group.ec2_sg.id
   referenced_security_group_id = var.alb_security_group_id
-  from_port         = 80
-  to_port           = 80
-  ip_protocol       = "tcp"
+  from_port                    = 80
+  to_port                      = 80
+  ip_protocol                  = "tcp"
 }
 
 resource "aws_instance" "this" {
