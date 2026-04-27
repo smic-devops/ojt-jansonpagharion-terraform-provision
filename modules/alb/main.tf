@@ -1,5 +1,5 @@
 resource "aws_security_group" "alb_sg" {
-  name   = "ojt-jansonpagharion-alb-sg-ppt"
+  name   = "ojt-jansonpagharion-alb-sg-ppt-4"
   vpc_id = var.vpc_id
 
   tags = {
